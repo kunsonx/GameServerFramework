@@ -1,2 +1,2 @@
 # GameServerFramework
-GameServerFramework
+分布式后台服务框架，采用 Java 开发， 可以配置多台承载连接服务器搭配一个主业务逻辑服务器。只要编写好业务模块，就可以部署运行
