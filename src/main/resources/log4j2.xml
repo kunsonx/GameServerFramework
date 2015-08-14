@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<configuration status="OFF">  
+    <appenders>  
+        
+        <Console name="Console" target="SYSTEM_OUT">  
+            <PatternLayout pattern="%d{MM-dd HH:mm:ss:SSS} %logger:%L%n%level:%msg%n"/> 
+        </Console>  
+        
+        <RollingFile name="RollingFile" fileName="../logs/${date:yyyyMMdd}.log"
+                     filePattern="../logs/%d{yyyyMMdd}.log" 
+                     immediateFlush="true" append="true" >
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d{MM-dd HH:mm:ss:SSS} %logger:%L%n%level:%msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name="RollingFile.SQL" 
+                     fileName="../logs/${date:yyyyMMdd}.sql"
+                     filePattern="../logs/%d{yyyyMMdd}.sql" 
+                     immediateFlush="true" 
+                     append="true">
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d{MM-dd HH:mm:ss:SSS} %logger:%L%n%level:%msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <root level="info">  
+            <appender-ref ref="Console" />  
+            <appender-ref ref="RollingFile"/>  
+        </root>
+        <logger name="org.hibernate" additivity="false" />
+        <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+            <appender-ref ref="RollingFile.SQL"/>  
+        </logger>
+    </loggers>  
+</configuration>  

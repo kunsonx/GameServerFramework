@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<MasterConfig>
+    <MasterServer>
+        <Address>localhost</Address>
+        <Port>7700</Port>
+    </MasterServer>
+    <!-- 定义服务器钥匙与服务器类型信息  -->
+    <ServerInformation>
+        <Server Key="qwer789421">BackendServer</Server>
+        <Server Key="abcd123456">FrontendServer</Server>
+        <Server Key="dcba654321">FrontendServer</Server>
+        
+        <Server Key="myslotbackend">BackendServer</Server>
+        <Server Key="myslotfrontend">FrontendServer</Server>
+        <Server Key="blackjackbackend">BackendServer</Server>
+        <Server Key="blackjackfrontend">FrontendServer</Server>
+        
+        <Server Key="p2">BackendServer</Server>
+        <Server Key="p2">FrontendServer</Server>
+    </ServerInformation>
+</MasterConfig>

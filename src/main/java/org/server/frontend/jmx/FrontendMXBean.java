@@ -1,0 +1,25 @@
+package org.server.frontend.jmx;
+
+import java.util.List;
+
+/**
+ * 前台服务 Jmx MBean 接口
+ *
+ * @author Hxms
+ */
+public interface FrontendMXBean {
+
+    /**
+     * 获得服务名称
+     *
+     * @return 服务名称
+     */
+    public String getServerName();
+
+    /**
+     * 获得服务连接状态表
+     *
+     * @return 状态表
+     */
+    public FrontendConnectTable[] getConnectTable();
+}
