@@ -10,3 +10,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.settings/.svn/text-base/org.eclipse.jdt.core.prefs.svn-base
+*.svn-base
+.settings/org.eclipse.jdt.core.prefs
+*.xml
+config/.svn/entries
+.settings/org.eclipse.m2e.core.prefs
+.svn/entries
+.settings/.svn/entries
