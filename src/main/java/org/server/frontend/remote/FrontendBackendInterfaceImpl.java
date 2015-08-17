@@ -6,17 +6,18 @@
 package org.server.frontend.remote;
 
 import java.rmi.RemoteException;
+
 import org.server.core.io.SessionMessage;
 import org.server.core.remote.RMIServiceInterfaceImpl;
 import org.server.frontend.FrontendServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FrontendBackendInterfaceImpl extends RMIServiceInterfaceImpl<FrontendServer> implements FrontendBackendInterface {
 
-    private static final Logger logger = LoggerFactory.getLogger(FrontendBackendInterfaceImpl.class);
-
-    public FrontendBackendInterfaceImpl(FrontendServer server) throws RemoteException {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1784040854920716813L;
+	public FrontendBackendInterfaceImpl(FrontendServer server) throws RemoteException {
         super(server);
     }
 

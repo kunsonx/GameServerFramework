@@ -78,7 +78,6 @@ public class OrmChangeLoggerModel implements OrmChangeLoggerModelInterface {
      *
      * @return 返回自动记录代理对象
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Object proxy() {
         if (_loggerProxy == null) {

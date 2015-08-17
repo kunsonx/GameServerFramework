@@ -12,7 +12,12 @@ package org.server.core;
  */
 public class IPAddress implements java.io.Serializable {
 
-    String _ip;
+    /**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 3385307119085285171L;
+	
+	String _ip;
     int _port;
 
     public String getIp() {

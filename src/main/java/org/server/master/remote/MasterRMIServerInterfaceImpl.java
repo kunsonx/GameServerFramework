@@ -18,7 +18,11 @@ import org.slf4j.LoggerFactory;
 
 public class MasterRMIServerInterfaceImpl extends RMIServiceInterfaceImpl<MasterServer> implements MasterRMIServerInterface {
 
-    private static final Logger logger = LoggerFactory.getLogger(MasterRMIServerInterfaceImpl.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2661310995704469536L;
+	private static final Logger logger = LoggerFactory.getLogger(MasterRMIServerInterfaceImpl.class);
 
     public MasterRMIServerInterfaceImpl(MasterServer server) throws RemoteException {
         super(server);

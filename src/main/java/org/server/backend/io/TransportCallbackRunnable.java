@@ -15,11 +15,11 @@ import org.server.core.io.SessionMessage;
  */
 public class TransportCallbackRunnable implements Runnable {
 
-    TransportCallback _callback;
+    TransportCallback<?, ?> _callback;
     GameSession _session;
     SessionMessage _data;
 
-    public TransportCallbackRunnable(TransportCallback _callback, GameSession _session, SessionMessage _data) {
+    public TransportCallbackRunnable(TransportCallback<?, ?> _callback, GameSession _session, SessionMessage _data) {
         this._callback = _callback;
         this._session = _session;
         this._data = _data;

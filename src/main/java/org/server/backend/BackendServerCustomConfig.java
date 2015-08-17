@@ -15,7 +15,11 @@ import org.w3c.dom.NodeList;
  */
 public class BackendServerCustomConfig extends HashMap<String, Object> {
 
-    // 日志记录器
+    /**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -8178399589711846783L;
+	// 日志记录器
     static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
 
     @SuppressWarnings("unchecked")

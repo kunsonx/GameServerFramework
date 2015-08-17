@@ -58,7 +58,7 @@ public class BackendServer extends AbstractRMIServerClient<BackendServerConfig> 
     }
 
     @Override
-    protected RMIServiceInterfaceImpl createMasterInterfaceImpl() throws RemoteException {
+    protected RMIServiceInterfaceImpl<?> createMasterInterfaceImpl() throws RemoteException {
         return new BackendMasterInterfaceImpl(this);
     }
 

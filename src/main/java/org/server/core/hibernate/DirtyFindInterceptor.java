@@ -24,7 +24,12 @@ import org.slf4j.LoggerFactory;
  */
 public class DirtyFindInterceptor extends EmptyInterceptor {
 
-    static final Logger log = LoggerFactory.getLogger(DirtyFindInterceptor.class);
+    /**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 3513522165861578061L;
+
+	static final Logger log = LoggerFactory.getLogger(DirtyFindInterceptor.class);
 
     SessionImplementor sessionImplementor;// 会话实现
 

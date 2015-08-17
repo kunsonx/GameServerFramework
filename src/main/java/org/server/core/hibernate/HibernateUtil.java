@@ -57,7 +57,7 @@ public class HibernateUtil {
             for (Iterator<PersistentClass> iterator = configuration.getClassMappings(); iterator.hasNext();) {
                 PersistentClass next = iterator.next();
                 try {
-                    Class cls = Class.forName(next.getClassName());
+                    Class<?> cls = Class.forName(next.getClassName());
                     if (cls != null && (cls.getSuperclass().equals(OrmChangeLoggerModel.class) || OrmAutoLogger.hasAutoProxy(cls))) {
                         // 设置动态更新
                         next.setDynamicUpdate(true);

@@ -7,7 +7,11 @@ package org.server.frontend.jmx;
  */
 public class FrontendConnectTable implements java.io.Serializable {
 
-    private final long id, sendBytes, receivedBytes, sendMessages, receivedMessages;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6044844963829204511L;
+	private final long id, sendBytes, receivedBytes, sendMessages, receivedMessages;
 
     public FrontendConnectTable(long id, long sendBytes, long receivedBytes, long sendMessages, long receivedMessages) {
         this.id = id;

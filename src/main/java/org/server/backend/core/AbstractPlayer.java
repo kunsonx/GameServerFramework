@@ -7,6 +7,7 @@ package org.server.backend.core;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.slf4j.LoggerFactory;
 
 /**
@@ -22,7 +23,7 @@ public abstract class AbstractPlayer<T> implements Player<T> {
     /**
      * 玩家帮助类
      */
-    Map<Class<? extends AbstractPlayerHelper>, Object> _helps = new HashMap<>();
+    Map<Class<? extends AbstractPlayerHelper<?>>, Object> _helps = new HashMap<>();
 
     /**
      * 获得帮助类对象
@@ -32,7 +33,7 @@ public abstract class AbstractPlayer<T> implements Player<T> {
      * @return 帮助类对象
      */
     @SuppressWarnings("unchecked")
-    public <H extends AbstractPlayerHelper> H getHelp(Class<H> cls) {
+	public <H extends AbstractPlayerHelper<AbstractPlayer<?>>> H getHelp(Class<H> cls) {
         if (!_helps.containsKey(cls)) {
             try {
                 H result = cls.newInstance();

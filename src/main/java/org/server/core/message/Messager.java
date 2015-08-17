@@ -26,8 +26,8 @@ public class Messager {
     static final Logger _log = LoggerFactory.getLogger(Messager.class);
     static final Messager _INSTANCE = new Messager();
 
-    final List<WeakReference<MessageReceiver>> _receiver = new ArrayList<>();
-    final ReferenceQueue<MessageReceiver> _referenceQueue = new ReferenceQueue<>();
+    final List<WeakReference<MessageReceiver<?>>> _receiver = new ArrayList<>();
+    final ReferenceQueue<MessageReceiver<?>> _referenceQueue = new ReferenceQueue<>();
 
     /**
      * 获得消息实例
@@ -89,9 +89,9 @@ public class Messager {
      */
     public void sendMessage(Object key, Object... values) {
         synchronized (_receiver) {
-            for (Iterator<WeakReference<MessageReceiver>> iterator = _receiver.iterator(); iterator.hasNext();) {
-                WeakReference<MessageReceiver> next = iterator.next();
-                MessageReceiver receiver = next.get();
+            for (Iterator<WeakReference<MessageReceiver<?>>> iterator = _receiver.iterator(); iterator.hasNext();) {
+                WeakReference<MessageReceiver<?>> next = iterator.next();
+                MessageReceiver<?> receiver = next.get();
                 if (receiver != null && receiver.isActive()) {
                     receiver.invoke(key, values);
                 } else {

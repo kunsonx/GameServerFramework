@@ -42,7 +42,7 @@ public class Pair<F, S> {
         if (!(obj instanceof Pair)) {
             return false;
         }
-        Pair p = (Pair) obj;
+        Pair<?, ?> p = (Pair<?, ?>) obj;
         return same(p.o1, this.o1) && same(p.o2, this.o2);
     }
 

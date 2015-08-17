@@ -148,7 +148,7 @@ public class FrontendServer extends AbstractRMIServerClient<FrontendServerConfig
     }
 
     @Override
-    protected RMIServiceInterfaceImpl createMasterInterfaceImpl() throws RemoteException {
+    protected RMIServiceInterfaceImpl<?> createMasterInterfaceImpl() throws RemoteException {
         return new FrontendMasterInterfaceImpl(this);
     }
 

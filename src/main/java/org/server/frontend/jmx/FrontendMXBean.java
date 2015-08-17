@@ -1,7 +1,5 @@
 package org.server.frontend.jmx;
 
-import java.util.List;
-
 /**
  * 前台服务 Jmx MBean 接口
  *

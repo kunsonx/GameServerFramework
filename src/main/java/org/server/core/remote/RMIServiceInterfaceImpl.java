@@ -12,7 +12,11 @@ import org.server.core.IPAddress;
 
 public class RMIServiceInterfaceImpl<T extends AbstractStandardServer<?>> extends UnicastRemoteObject implements RMIServiceInterface {
 
-    private final T _server;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8364565328974879142L;
+	private final T _server;
 
     public RMIServiceInterfaceImpl(T server) throws RemoteException {
         _server = server;

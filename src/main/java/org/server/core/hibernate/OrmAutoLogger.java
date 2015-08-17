@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class OrmAutoLogger {
 
     static final Logger log = LoggerFactory.getLogger(OrmAutoLogger.class);
-    static HashMap<Class, Class> _proxyClasses = new HashMap<>();// 被代理类型对应代理类型
+    static HashMap<Class<?>, Class<?>> _proxyClasses = new HashMap<>();// 被代理类型对应代理类型
     static HashMap<String, String> _proxyNameMap = new HashMap<>();// 代理类型对应被代理类型
 
     /**
@@ -36,7 +36,7 @@ public class OrmAutoLogger {
             CtClass ctClass = ClassPool.getDefault().get(cls.getName());// 读取要被代理的类型
             CtClass loggerClass = ClassPool.getDefault().getAndRename(OrmChangeLoggerModel.class.getName(), cls.getName() + "AutoProxy");// 读取通用父类
             loggerClass.setSuperclass(ctClass);// 设置父类
-            Class proxyCls = loggerClass.toClass();
+            Class<?> proxyCls = loggerClass.toClass();
             _proxyClasses.put(cls, proxyCls);
             registerProxyClass(proxyCls, cls);
         } catch (CannotCompileException | NotFoundException ex) {
@@ -51,7 +51,7 @@ public class OrmAutoLogger {
      * @param cls 检测代理类型
      * @return 是否有代理
      */
-    public static boolean hasAutoProxy(Class cls) {
+    public static boolean hasAutoProxy(Class<?> cls) {
         return _proxyClasses.containsKey(cls);
     }
 
@@ -61,7 +61,7 @@ public class OrmAutoLogger {
      * @param cls 注册类型代理
      * @return 代理对象
      */
-    public static Object instantiate(Class cls) {
+    public static Object instantiate(Class<?> cls) {
         try {
             if (_proxyClasses.containsKey(cls)) {
                 Object result = _proxyClasses.get(cls).newInstance();
@@ -82,14 +82,14 @@ public class OrmAutoLogger {
      * @param cls 代理类型对象
      * @return 类名称
      */
-    public static String getEntityName(Class cls) {
+    public static String getEntityName(Class<?> cls) {
         if (_proxyNameMap.containsKey(cls.getName())) {
             return _proxyNameMap.get(cls.getName());
         }
         return null;
     }
 
-    public static void registerProxyClass(Class proxyCls, Class cls) {
+    public static void registerProxyClass(Class<?> proxyCls, Class<?> cls) {
         _proxyNameMap.put(proxyCls.getName(), cls.getName());
     }
 }

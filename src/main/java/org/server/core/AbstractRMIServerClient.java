@@ -131,7 +131,7 @@ public abstract class AbstractRMIServerClient<C extends AbstractServerConfig> ex
      * @return
      * @throws java.rmi.RemoteException
      */
-    protected abstract RMIServiceInterfaceImpl createMasterInterfaceImpl() throws RemoteException;
+    protected abstract RMIServiceInterfaceImpl<?> createMasterInterfaceImpl() throws RemoteException;
 
     /**
      * 创建RMI服务器

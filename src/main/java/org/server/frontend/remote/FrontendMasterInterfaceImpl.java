@@ -14,7 +14,11 @@ import org.slf4j.LoggerFactory;
 
 public class FrontendMasterInterfaceImpl extends RMIServiceInterfaceImpl<FrontendServer> implements FrontendMasterInterface {
 
-    private static final Logger logger = LoggerFactory.getLogger(FrontendMasterInterfaceImpl.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4972220148590157592L;
+	private static final Logger logger = LoggerFactory.getLogger(FrontendMasterInterfaceImpl.class);
 
     public FrontendMasterInterfaceImpl(FrontendServer server) throws RemoteException {
         super(server);

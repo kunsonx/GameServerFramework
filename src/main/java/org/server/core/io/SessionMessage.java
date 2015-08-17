@@ -12,7 +12,11 @@ package org.server.core.io;
  */
 public class SessionMessage implements java.io.Serializable {
 
-    private short command;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1344636526677325402L;
+	private short command;
     private byte[] data;
 
     public SessionMessage(short command, byte[] data) {

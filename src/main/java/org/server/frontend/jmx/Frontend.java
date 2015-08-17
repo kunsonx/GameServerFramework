@@ -1,6 +1,5 @@
 package org.server.frontend.jmx;
 
-import java.util.List;
 import org.server.frontend.FrontendServer;
 
 /**
