@@ -72,7 +72,17 @@ public class StartupServer implements Runnable {
 				try {
 					// 处理输入命令
 					while (true) {
-						server.executeCommand(sc.nextLine().trim());
+
+						String nextLine = null;
+
+						try {
+							nextLine = sc.nextLine();
+						} catch (Exception ignore) {
+						}
+
+						if (nextLine != null) {
+							server.executeCommand(nextLine.trim());
+						}
 					}
 				} finally {
 					sc.close();
@@ -86,5 +96,4 @@ public class StartupServer implements Runnable {
 			logger.error("加载运行服务失败：", e);
 		}
 	}
-
 }

@@ -5,12 +5,14 @@
  */
 package org.server.backend.remote;
 
+import java.net.SocketAddress;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.server.backend.BackendServer;
+import org.server.backend.io.IMessageProcess;
 import org.server.backend.io.Transport;
 import org.server.backend.session.BackendSession;
 import org.server.backend.session.GameSessionProvider;
@@ -30,18 +32,28 @@ public class BackendRMIServerInterfaceImpl extends
 	/**
 	 * serialVersionUID
 	 */
-	private static final long serialVersionUID = 1142467897803718735L;
-	private static final Logger logger = LoggerFactory
+	static final long serialVersionUID = 1142467897803718735L;
+	static final Logger logger = LoggerFactory
 			.getLogger(BackendRMIServerInterfaceImpl.class);
 	/**
 	 * 服务集合
 	 */
-	private final Map<Integer, FrontendBackendInterface> _frontendServer = new HashMap<>();
-	private final AtomicInteger _idAtomic = new AtomicInteger();
+	final Map<Integer, FrontendBackendInterface> _frontendServer = new HashMap<>();
+	final AtomicInteger _idAtomic = new AtomicInteger();
+
+	IMessageProcess handleComponent;
 
 	public BackendRMIServerInterfaceImpl(BackendServer server)
 			throws RemoteException {
 		super(server);
+	}
+
+	public IMessageProcess getHandleComponent() {
+		return handleComponent;
+	}
+
+	public void setHandleComponent(IMessageProcess handleComponent) {
+		this.handleComponent = handleComponent;
 	}
 
 	@Override
@@ -87,6 +99,8 @@ public class BackendRMIServerInterfaceImpl extends
 	@Override
 	public void onSessionReceived(long id, SessionMessage data, int nodeId)
 			throws RemoteException {
+		if (handleComponent != null)
+			handleComponent.fireMessageReceived(nodeId, id, data);
 		Transport.fireMessageReceived(nodeId, id, data);
 	}
 
@@ -97,7 +111,7 @@ public class BackendRMIServerInterfaceImpl extends
 	 *            会话地址
 	 * @return 远程客户端地址
 	 */
-	public String getAddress(BackendSession session) {
+	public SocketAddress getAddress(BackendSession session) {
 		return callRemoteFunc(session.getFrontendServerId(),
 				f -> f.getAddress(session.getSessionId()));
 	}

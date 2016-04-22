@@ -43,7 +43,7 @@ public final class HttpRequest {
             //header"X-TT-MOPTS"用于bitwise-or选项,1(忽略更新日志)，请求参数用"application/x-www-form-urlencoded"格式表示在实体正文中，
             //名字被忽略而值被作为参数列表。结果在应答的实体正文中用"application/x-www.form-url-urlencoded"格式表示
             //PUT有header"X-TT-PDMODE"，值可以是1（同'tcrdbputkeep'）,2(同'tcrdbputcat'),3(同'tcrdbput')
-            connection.setRequestProperty("X-TT-PDMODE:", " 2 ");
+//            connection.setRequestProperty("X-TT-PDMODE:", " 2 ");
             //设置连接主机超时（单位：毫秒）
             connection.setConnectTimeout(30000);
             //设置从主机读取数据超时（单位：毫秒）

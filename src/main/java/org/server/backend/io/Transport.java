@@ -31,10 +31,24 @@ public class Transport {
 
 	static final Logger log = LoggerFactory.getLogger(Transport.class);
 
+	static ExecutorService _callbackExecutor;
+
 	static final List<TransportCallback<?, ?>> _callbacks = new CopyOnWriteArrayList<>();
 	static final Map<Integer, Integer> _commandValueCaches = new ConcurrentHashMap<>();
 	static SessionAuthentication _authentication;
 	static SessionAuthenticationFail _authenticationFail;
+
+	static {
+
+		int callbackExecutorCount = Runtime.getRuntime().availableProcessors();
+
+		log.info(
+				"[BackendServer::Transport] callback executor pool using thread count : {}.",
+				callbackExecutorCount);
+
+		_callbackExecutor = Executors
+				.newWorkStealingPool(callbackExecutorCount);
+	}
 
 	/**
 	 * 注册模块接收处理回调接口
@@ -125,8 +139,7 @@ public class Transport {
 	 */
 	public static void write(GameSession session, SessionMessage message) {
 		// 增加流量
-		session.setOutputBytes(session.getOutputBytes()
-				+ message.getData().length + 6);
+		session.addOutputBytes(message.getData().length + 6);
 
 		BackendServer.getInstance().getBackendRMIServerInterface()
 				.write(session.getBackendSession(), message);
@@ -203,9 +216,6 @@ public class Transport {
 		_commandValueCaches.put(cls.hashCode(), command);
 	}
 
-	static ExecutorService _callbackExecutor = Executors
-			.newWorkStealingPool(Runtime.getRuntime().availableProcessors());
-
 	/**
 	 * 触发消息接收事件
 	 *
@@ -226,8 +236,7 @@ public class Transport {
 		for (TransportCallback<?, ?> cb : _callbacks) {
 			if (cb.getCommand() == data.getCommand()) {
 				// 设置输入流量
-				session.setInputBytes(session.getInputBytes()
-						+ data.getData().length + 6);
+				session.addInputBytes(data.getData().length + 6);
 				_callbackExecutor.execute(new TransportCallbackRunnable(cb,
 						session, data));
 				caller = true;

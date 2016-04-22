@@ -5,6 +5,7 @@
  */
 package org.server.frontend.remote;
 
+import java.net.SocketAddress;
 import java.rmi.RemoteException;
 
 import org.server.core.io.SessionMessage;
@@ -37,7 +38,7 @@ public class FrontendBackendInterfaceImpl extends RMIServiceInterfaceImpl<Fronte
     }
 
     @Override
-    public String getAddress(long sessionId) throws RemoteException {
+    public SocketAddress getAddress(long sessionId) throws RemoteException {
         return getServer().getFrontendSocketEventHandler().getAddress(sessionId);
     }
 }

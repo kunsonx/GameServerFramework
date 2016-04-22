@@ -5,7 +5,9 @@
  */
 package org.server.frontend.remote;
 
+import java.net.SocketAddress;
 import java.rmi.RemoteException;
+
 import org.server.core.io.SessionMessage;
 import org.server.core.remote.RMIServiceInterface;
 
@@ -38,7 +40,7 @@ public interface FrontendBackendInterface extends RMIServiceInterface {
      * @return 会话连接IP地址
      * @throws RemoteException 远程调用异常
      */
-    public String getAddress(long sessionId) throws RemoteException;
+    public SocketAddress getAddress(long sessionId) throws RemoteException;
 
     /**
      * 写入数据

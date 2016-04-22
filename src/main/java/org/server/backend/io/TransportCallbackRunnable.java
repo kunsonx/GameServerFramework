@@ -29,7 +29,7 @@ public class TransportCallbackRunnable implements Runnable {
     public void run() {
         Thread cur = Thread.currentThread();
         String name = cur.getName();
-        cur.setName(String.format("MessageCallback Work Thread:[%d]", cur.getId()));
+        cur.setName(String.format("MessageCallback Workthread:[%d]", cur.getId()));
         _callback.received(_session, _data);
         cur.setName(name);
     }
