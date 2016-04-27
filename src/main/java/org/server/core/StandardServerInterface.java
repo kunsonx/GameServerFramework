@@ -22,10 +22,10 @@ public interface StandardServerInterface {
     /**
      * 开启服务
      */
-    void start();
+    boolean start();
     
     /**
      * 停止服务
      */
-    void stop();
+    boolean stop();
 }

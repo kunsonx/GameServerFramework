@@ -23,31 +23,31 @@ import org.slf4j.LoggerFactory;
  * @author Administrator
  */
 public class BackendServer extends AbstractRMIServerClient<BackendServerConfig> {
-
+    
     // 日志记录器
-    static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
+    static final Logger           logger = LoggerFactory.getLogger(BackendServer.class);
     // 单例
-    static BackendServer _instance;
+    static BackendServer          _instance;
     // 后台服务RMI管理器
     BackendRMIServerInterfaceImpl _backendRMIServerInterface;
-
+                                  
     public BackendServer() {
         super(new BackendServerConfig());
         initialize();
     }
-
+    
     /**
      * 初始化
      */
     private void initialize() {
         _instance = this;
     }
-
+    
     public static void main(String[] args) {
         StartupServer startupServer = new StartupServer("org.server.backend.BackendServer");
         startupServer.run();
     }
-
+    
     /**
      * 获得服务程序域唯一实例
      *
@@ -56,35 +56,37 @@ public class BackendServer extends AbstractRMIServerClient<BackendServerConfig> 
     public static BackendServer getInstance() {
         return _instance;
     }
-
+    
     @Override
     protected RMIServiceInterfaceImpl<?> createMasterInterfaceImpl() throws RemoteException {
         return new BackendMasterInterfaceImpl(this);
     }
-
+    
     @Override
     protected UnicastRemoteObject createRemoteObject() throws RemoteException {
         return getBackendRMIServerInterface();
     }
-
+    
     @Override
     protected String getRemoteObjectName() {
         return "BackendServer";
     }
-
+    
     @Override
     protected boolean start0() {
-        GameComponentManagement.loadAllComponent();
+        boolean launcherSuccess = GameComponentManagement.loadAllComponent();
+        if (!launcherSuccess) return launcherSuccess;
         registerMBean("Backend", new Backend());
-        return super.start0(); //To change body of generated methods, choose Tools | Templates.
+        return super.start0();
     }
-
+    
     @Override
     protected boolean stop0() {
         GameComponentManagement.unloadAllComponent();
-        return super.stop0(); //To change body of generated methods, choose Tools | Templates.
+        return super.stop0(); // To change body of generated methods, choose
+                              // Tools | Templates.
     }
-
+    
     /**
      * 获得自定义配置项
      *
@@ -93,7 +95,7 @@ public class BackendServer extends AbstractRMIServerClient<BackendServerConfig> 
     public BackendServerCustomConfig getCustomConfig() {
         return getServerConfig().getCustomConfig();
     }
-
+    
     /**
      * 获得后台服务RMI管理器
      *
