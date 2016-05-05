@@ -16,15 +16,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.server.backend.component.GameComponent.Setting;
+import org.server.backend.io.handle.impl.TransportMeta;
+import org.server.tools.Toolset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javassist.ClassPool;
 import javassist.CtClass;
 import jodd.io.findfile.ClassScanner;
 import jodd.util.ClassLoaderUtil;
-
-import org.server.backend.component.GameComponent.Setting;
-import org.server.tools.Toolset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 游戏组件管理器
@@ -34,9 +35,7 @@ import org.slf4j.LoggerFactory;
 public class GameComponentManagement {
     
     static final Logger                      log             = LoggerFactory.getLogger(GameComponentManagement.class);
-                                                             
     static final Map<GameComponent, Setting> _components     = new HashMap<>();
-                                                             
     static final Map<Integer, GameComponent> _idByComponents = new HashMap<>();
                                                              
     /**
@@ -55,10 +54,8 @@ public class GameComponentManagement {
         protected void onEntry(EntryData arg0) throws Exception {
             // 获得名称
             String clsName = arg0.getName();
-            
             // 排除 maven 工程 的 target 目录
             if (clsName.contains("target.classes.")) { return; }
-            
             // 建立过滤条件, 搜索包名或者类名中带有 component 关键字的类
             if (clsName.toLowerCase().contains("component")) {
                 handlerClass(clsName);
@@ -80,7 +77,7 @@ public class GameComponentManagement {
                         try {
                             timeText = displayFormat.format(datetimeFormat.parse(timeText));
                             Toolset.prettyOutput(log, "运行模块  {}{nl}{}", moduleName, timeText);
-                        } catch (Exception ignore) {
+                        } catch (Throwable ignore) {
                             // ignore the exception
                         }
                     }
@@ -134,18 +131,13 @@ public class GameComponentManagement {
      *            类文件名
      */
     static void handlerClass(String clsName) {
-        
         // 寻找相关类
         if (!findSomeComponent(clsName, null, GameComponent.class)) return;
-        
         // 实例化组件
         GameComponent component = newInstanceComponent(clsName);
-        
         if (component == null) return;
-        
         // 获得组件设置
         Setting setting = component.getClass().getAnnotation(Setting.class);
-        
         // 注册到缓存
         registerComponent(setting, component);
     }
@@ -163,47 +155,35 @@ public class GameComponentManagement {
      *            想要查询的类
      */
     static boolean findSomeComponent(String clsName, String parentClsName, Class<?> likeCls) {
-        
         // 要查询类的名称
         boolean queryIsParent = true;
         String queryClsName = parentClsName;
-        
         if (queryClsName == null) {
             queryClsName = clsName;
             queryIsParent = false;
         }
-        
         // not self
         if (queryClsName.equals(likeCls.getName())) return false;
-        
         // 获得类型池
         ClassPool pool = ClassPool.getDefault();
-        
         try {
             CtClass ctClass = pool.get(queryClsName);
-            
             // 获得类实现接口
             String[] interfaces = ctClass.getClassFile().getInterfaces();
-            
             // 利用 stream 做条件筛选
             boolean isImpl = Arrays.stream(interfaces).filter(x -> x.equals(likeCls.getName())).findAny().isPresent();
-            
             // 判断类是否为抽象
             boolean isAbs = Modifier.isAbstract(ctClass.getModifiers());
-            
             // 父级是否符合套件
             boolean parentMatch = false;
-            
             // 查找父类
             if (ctClass.getSuperclass() != null)
                 parentMatch = findSomeComponent(clsName, ctClass.getSuperclass().getName(), likeCls);
-                
             // 判断类是否实现接口
             return (isImpl || parentMatch) && (queryIsParent || !isAbs);
         } catch (Throwable e) {
             log.error("Can't Load [{}:{}] Class File ", queryClsName, e.getMessage(), e);
         }
-        
         return false;
     }
     
@@ -247,10 +227,8 @@ public class GameComponentManagement {
     static int sortComponent(GameComponent x, GameComponent y) {
         Setting a = _components.get(x);
         Setting b = _components.get(y);
-        
         int x_value = a != null ? a.loadOrder() : 0;
         int v_value = b != null ? b.loadOrder() : 0;
-        
         return x_value - v_value;
     }
     
@@ -263,15 +241,11 @@ public class GameComponentManagement {
      *            组件实例
      */
     static void registerComponent(Setting setting, GameComponent newInstance) {
-        
         _components.put(newInstance, setting);
-        
         if (setting != null) {
-            
             if (_idByComponents.containsKey(setting.id())) {
                 log.warn("[GameComponentManagement] 重复的组件编号:: {} , 请检查！", setting.id());
             }
-            
             _idByComponents.put(setting.id(), newInstance);
         }
     }
@@ -303,7 +277,6 @@ public class GameComponentManagement {
                 break;
             }
         }
-        
         if (unloadAll) {
             for (GameComponent gameComponent : loadedComponents) {
                 String cName = gameComponent.getClass().getName();
@@ -315,6 +288,8 @@ public class GameComponentManagement {
                     break;
                 }
             }
+        } else {
+            TransportMeta.scannerLogicConfig(loadedComponents);
         }
         return fatalErrorThrowable == null;
     }
